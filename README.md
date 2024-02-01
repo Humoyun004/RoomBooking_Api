@@ -1,47 +1,123 @@
-# Channel_App
-
-## Желаем приятного Чтения
-
-> Этот проект для создания постов. Она разработана таким образом, чтобы только администраторы имели возможность публиковать посты, а другие пользователи могли только читать эти сообщения.
+# RoomBooking_Api
 
 
-<img src="media/img1.gif" width="900" height="450">
+> Этот API для бронирования комнатов. Смотря на вышу вкус можете добавлять комнаты через админ панель. Сейчас программа с несколько данными в `vercale` сервере есть через этот линк вы можете посмотерь - [room-booking-api](https://room-booking-api-beta.vercel.app/api/signup/).
 
-![img1](media/img2.png)
 
-![img2](media/img3.png)
+![img1](images/img1.jpg)
+![img2](images/img2.jpg)
+![img3](images/img3.jpg)
+![img4](images/img4.jpg)
+![img5](images/img5.jpg)
 **Пример программы так работает.**
 
+## `Endpoints:`
+- `GET` → `…/api/rooms` для свободных и занятых комнат. 
 
-## Установка и Использование
-## Postgres
-### Вы должны подключить в настройке базу данных `Postgres` или `SQLite`.
-1. Заходите в проэкт > `Settings`  находите конфигурацию базы данных:
-** `Postgres` **
- >  ENGINE': 'django.db.backends.postgresql_psycopg2',
-  -      'NAME': '',
-  -     'USER': '',
-  -      'PASSWORD': '',
-  -      'HOST': 'localhost',
-  -      'PORT':5432,
-Заходите в `Postgres` в вашем компютере и создаете новую датабазу для этого проэкта и указываете его в настройки где `NAME`, указываете вы с какого пользователя его создали `USER` и пароль его `PASSWORD`. 
-
-### Если же можете `SQLite` default базу данных использовать:
-    ```
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+```json
+{
+    "available": [
+        {
+            "id": 1,
+            "title": "Facebook",
+            "capacity": 5,
+            "description": "5 kishilik meeting xona",
+            "is_booked": false
+        },
+        {
+            "id": 2,
+            "title": "Google",
+            "capacity": 1,
+            "description": "1 kishilik katta va shinam xona",
+            "is_booked": false
+        },
+        {
+            "id": 4,
+            "title": "Netflix",
+            "capacity": 10,
+            "description": "kinoteatrli va co-working xona",
+            "is_booked": false
+        },
+        {
+            "id": 6,
+            "title": "McDonald's",
+            "capacity": 30,
+            "description": "O’yinchoqlarga boy xona",
+            "is_booked": false
+        },
+        {
+            "id": 7,
+            "title": "Halloween",
+            "capacity": 1,
+            "description": "qo’rqinchli xona",
+            "is_booked": false
+        },
+        {
+            "id": 9,
+            "title": "New York",
+            "capacity": 15,
+            "description": "Batut va yumshoq kreslolar bor xona",
+            "is_booked": false
         }
-    }
-    ```
+    ],
+    "reserved": [
+        {
+            "id": 5,
+            "title": "Hulu",
+            "capacity": 5,
+            "description": "Oshxona bilan jihozlangan xona",
+            "is_booked": true
+        },
+        {
+            "id": 3,
+            "title": "Amazon",
+            "capacity": 20,
+            "description": "20 kishilik kichik office xona",
+            "is_booked": true
+        }
+    ],
+    "date": "2024-02-01T15:59:18.785944Z"
+}
+```
 
-## Проект с использованием pipenv
-### Первый очередь вы должны работу с pipenv
+- `POST` → `…/api/book/room` для брона. комнаты
 
-Этот проект использует инструмент pipenv для управления зависимостями и виртуальным окружением Python.
+```json
+{
+    "room_name": "Facebook",
+    "start": "2023-01-01T15:30:00Z",
+    "end": "2023-01-01T16:30:00Z"
+}
+```
 
-### Установка pipenv
+- `GET` → `…/api/room/<room_name>` для получения информацию о комнаты.
+```json
+HTTP 200 OK
+Allow: GET
+Content-Type: application/json
+
+{
+   "room" : 2, 
+   "room_name" : "Google",
+   "is_free" : true, 
+   "description": "1 kishilik katta va shinam xona",
+}
+```
+
+## Authentication
+
+> Установлено JWT authentication к программу, вы должны брать токен и с помощью него сможете работать и должны проходить регистрацию иначе с программой не сможете работать.
+
+## `Enpoints JWT:`
+
+- `..api/token/`
+- `api/token/refresh/`
+
+## `Enpoint Sign Up:`
+- `.../api/signup/`
+
+
+## Установка pipenv
 
 1. Убедитесь, что Python установлен на вашем компьютере.
 2. Установите pipenv с помощью команды:
@@ -54,11 +130,11 @@
 
 1. Клонируйте репозиторий:
     ```
-    $ git clone https://github.com/Humoyun004/Channel_App.git
+    $ git clone https://github.com/Humoyun004/RoomBookin_Api.git
     ```
 2. Заходите в репозиторий:
     ```
-    $ git clone https://github.com/humoyun04/Channel_App.git
+    cd RoomBooking_Api
     ```
 
 3. Запустите команду `pipenv install`, чтобы создать виртуальное окружение и установить все зависимости из файла `Pipfile.lock`.
@@ -76,96 +152,6 @@
 - Чтобы запустить скрипты или приложение из вашего проекта, используйте `pipenv run`.
 
 
-**После того, как вы зошли в среду `(Channel_App) Channel_App` в таком ввиде будеть у вас.**
-
-```bash
-$ python manage.py makemigrations
-```
-
-**Это создаст все файлы миграции (миграции базы данных), необходимые для запуска этого приложения.**
-
-**Теперь, чтобы применить эту миграцию, выполните следующую команду**
-```bash
-$ python manage.py migrate
-```
-**Один последний шаг, и тогда наше приложение  будет запущено. Нам нужно создать пользователя-администратора для запуска этого приложения. В терминале введите следующую команду и укажите имя пользователя, пароль и адрес электронной почты для пользователя-администратора.**
-```bash
-$ python manage.py createsuperuser
-```
- **Запустите программу с помощью команды:**
-```bash
-$ python manage.py runserver
-```
-
-4. Выходим из среды:
-    ```bash
-    $ exit
-    ```
-
-## Проект с использованием Docker
-### Теперь если у вас Docker есть, смотрим с ним проэкт использовать.
-
-Этот проект использует Docker для управления своим окружением. Чтобы запустить его локально, выполните следующие шаги:
-
-### Шаги для запуска проекта
-
-### Установка Docker
-
-1. Убедитесь, что у вас установлен Docker на вашем компьютере.
-2. Если Docker не установлен, вы можете скачать его [отсюда](https://docs.docker.com/get-docker/) и установить в соответствии с инструкциями для вашей операционной системы.
-
-### Запуск проекта
-## Мы до это с помощю `pipenv` уже в репозитории заходили,теперь продолжим в этом месте слудующее, но вы сначала заходите в ваш `Docker Desktop` приложение конечно если у вас не `Linux`:
-1. Создайте образ Docker, выполнив команду: 
-    ```
-    $ docker build -t my_channel .
-    ```
-2. После того как образ будет успешно создан, запустите контейнер: 
-    ```
-    $ docker run -p 1212:8000 my_channel
-    ```
-3. Проверьте `Dockerfile` если у вас нет образа скачайте с `Docker Hub`:
-    ```bash
-    $ docker pull python:3.11-alpine
-    ```
-
-Теперь ваш проект должен быть доступен в вашем браузере по адресу `https://localhost:1212/posts`. - Здесь `posts/` означает это от application Django.
-
-5. Home Page:
-    ```
-    https://localhost:1212/posts
-    ```
-**Домашняя страница проэкта.**
-
-## Проект с без использованием Docker
-### Вы можете его без Docker использовать
-
-1. Заходим в среду:
-    ```bash
-    $ pipenv shell
-    ```
-2. Вводим команду:
-    ```bash
-    $ python manage.py runserver
-    ```
-
-### Создание поста
-1. **Заходите в `admin` Page:**
-    ```
-    https://localhost/admin
-    ```
-2. **После входа в cтраницу можете создавать свои посты".**
-3. **Заполните необходимые поля:**
-    - Изображение: Выберите файл изображения на вашем компьютере.
-    - Заголовок: Введите заголовок вашего поста.
-    - Текст: Напишите содержание вашего поста.
-4. Нажмите кнопку `Save`, чтобы создать пост.
-5. Ваш пост будет отображаться на cтранице:
-    ```
-    https://localhost/posts/channel
-    ```
-**Вы через этот путь можете увидеть их.**
-
 ## Вклад
 **Если вы хотите внести свой вклад в развитие приложения  пожалуйста, следуйте этим шагам:**
 
@@ -177,7 +163,7 @@ $ python manage.py runserver
 6. Создайте pull request (запрос на включение) в основной репозиторий.
 
 ## Контакты
-**Если у вас есть вопросы или предложения относительно приложения, пожалуйста, свяжитесь с нами по адресу humoyunakbaraliev1@gmail.com. Мы ценим ваше мнение!**
+**Если у вас есть вопросы или предложения относительно приложения, пожалуйста, свяжитесь с нами по адресу `humoyunakbaraliev1@gmail.com`. Мы ценим ваше мнение!**
 
 
 
