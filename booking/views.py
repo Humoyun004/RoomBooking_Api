@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils.timezone import now
@@ -12,6 +13,8 @@ from .serializers import RoomSerializer, BookingSerializer, SingUpSerializer
 
 # Create your views here.
 class RoomView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, *args, **kwargs):
         today = now()
 
@@ -31,6 +34,8 @@ class RoomView(ListAPIView):
 
 
 class RoomDetailView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, room_name):
         room = Room.objects.get(title=room_name)
         is_free = not room.is_booked
@@ -44,6 +49,8 @@ class RoomDetailView(APIView):
 
 
 class BookingApiView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request, *args, **kwargs):
         serializer = BookingSerializer(data=request.data, context={'request': request})
 
